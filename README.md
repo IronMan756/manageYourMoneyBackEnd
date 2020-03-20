@@ -1,7 +1,7 @@
 
 ## Running the app
-
-```Run code: docker-compose up
+Run code: docker-compose up
+```
 
 ```
 
