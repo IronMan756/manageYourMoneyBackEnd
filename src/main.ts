@@ -8,9 +8,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const options = new DocumentBuilder()
     .setTitle('ManageYourMoney')
-    .setDescription('ManageYourMoney API description')
+    // .setDescription('ManageYourMoney API description')
     .setVersion('1.0')
-    .addTag('ManageYourMoney')
+    // .addTag('ManageYourMoney')
     .build();
 
   app.use(
