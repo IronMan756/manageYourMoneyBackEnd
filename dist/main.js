@@ -9,9 +9,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const options = new swagger_1.DocumentBuilder()
         .setTitle('ManageYourMoney')
-        .setDescription('ManageYourMoney API description')
         .setVersion('1.0')
-        .addTag('ManageYourMoney')
         .build();
     app.use(bodyParser.urlencoded({
         extended: true,

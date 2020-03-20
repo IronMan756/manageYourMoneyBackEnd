@@ -10,12 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
-let AppController = class AppController {
+let AuthService = class AuthService {
     constructor() { }
 };
-AppController = __decorate([
-    common_1.Controller(),
+AuthService = __decorate([
+    common_1.Injectable(),
     __metadata("design:paramtypes", [])
-], AppController);
-exports.AppController = AppController;
-//# sourceMappingURL=app.controller.js.map
+], AuthService);
+exports.AuthService = AuthService;
+//# sourceMappingURL=auth.service.js.map

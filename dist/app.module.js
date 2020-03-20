@@ -11,11 +11,13 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     common_1.Module({
         imports: [
+            auth_module_1.AuthModule,
             config_1.ConfigModule.forRoot({
                 envFilePath: process.env.NODE_ENV === 'production' ? '.production.env' : '.env',
                 isGlobal: true,
