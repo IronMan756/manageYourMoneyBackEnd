@@ -1,6 +1,7 @@
-import { Controller, Post, HttpStatus, Body, Res } from "@nestjs/common";
+import { Controller, Post, HttpStatus, Body, Res, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Response } from "express";
+import { AuthGuard } from "@nestjs/passport";
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -37,6 +38,7 @@ export class AuthController {
         .json({ data: null, error });
     }
   }
+//   @UseGuards(AuthGuard('jwt'))
   @Post("signup")
   @ApiOperation({ description: "Sign up" })
   @ApiResponse({
