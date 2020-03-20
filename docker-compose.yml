@@ -2,13 +2,13 @@ version: '3.4'
 
 services:
   server:
-    container_name: manageyourmoney
+    container_name: money
     build: docker/server
     ports:
       - 8090:8090
       - 5858:5858
     volumes:
-      - ./:/var/www/manageyourmoney
+      - ./:/var/www/money
     environment:
       - COMPOSE_HTTP_TIMEOUT=300
     tty: true
@@ -16,16 +16,16 @@ services:
     depends_on:
       - mongodb
     networks:
-      - manageyourmoney-network
+      - money-network
 
   mongodb:
     image: mongo:latest
-    container_name: manageyourmoney-mongodb
+    container_name: money-mongodb
     ports:
       - 27017:27017
     networks:
-      - manageyourmoney-network
+      - money-network
 
 networks:
-  manageyourmoney-network:
+  money-network:
     external: true
