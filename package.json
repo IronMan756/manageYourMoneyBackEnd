@@ -30,6 +30,7 @@
     "@nestjs/config": "^0.1.0",
     "dotenv": "^8.2.0",
     "reflect-metadata": "^0.1.13",
+    "passport": "^0.4.1",
     "mongoose": "^5.8.9",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4",
