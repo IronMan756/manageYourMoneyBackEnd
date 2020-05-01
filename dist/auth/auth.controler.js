@@ -12,13 +12,20 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const config_1 = require("@nestjs/config");
+const users_dto_1 = require("./../users/users.dto");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
+const users_service_1 = require("../users/users.service");
+const bcrypt = require("bcrypt");
 let AuthController = class AuthController {
-    constructor() { }
+    constructor(userService, configService) {
+        this.userService = userService;
+        this.configService = configService;
+    }
     async signin(query, res) {
         try {
-            console.log(query);
+            console.log('sign-up success, all info about user: jwt token', query);
             return res.status(common_1.HttpStatus.OK).json({
                 data: `Sign In, body:${JSON.stringify(query)}`,
                 error: null,
@@ -32,9 +39,18 @@ let AuthController = class AuthController {
     }
     async signUp(user, res) {
         try {
-            console.log('Sign Up, body:', user);
+            const { email } = user;
+            const userInDB = await this.userService.findUser(email);
+            if (userInDB) {
+                return res.status(common_1.HttpStatus.CONFLICT).json({
+                    data: null,
+                    error: 'This email already exists'
+                });
+            }
+            const numberTypeSalt = Number(this.configService.get('SALT'));
+            const salt = await bcrypt.genSalt(numberTypeSalt);
             return res.status(common_1.HttpStatus.OK).json({
-                data: `Sign Up, body:${JSON.stringify(user)}`,
+                data: `Sign Up, body:${JSON.stringify(userInDB)}`,
                 error: null,
             });
         }
@@ -46,7 +62,7 @@ let AuthController = class AuthController {
     }
 };
 __decorate([
-    common_1.Post("signin"),
+    common_1.Post("sign-in"),
     swagger_1.ApiOperation({ description: "Login to system" }),
     swagger_1.ApiResponse({
         description: "Log in success ",
@@ -63,11 +79,11 @@ __decorate([
     __param(0, common_1.Body()),
     __param(1, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [users_dto_1.UserDto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signin", null);
 __decorate([
-    common_1.Post("signup"),
+    common_1.Post("sign-up"),
     swagger_1.ApiOperation({ description: "Sign up" }),
     swagger_1.ApiResponse({
         description: "Sign up success",
@@ -80,13 +96,14 @@ __decorate([
     __param(0, common_1.Body()),
     __param(1, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [users_dto_1.UserDto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signUp", null);
 AuthController = __decorate([
     swagger_1.ApiTags("Auth"),
     common_1.Controller("auth"),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [users_service_1.UsersService,
+        config_1.ConfigService])
 ], AuthController);
 exports.AuthController = AuthController;
 //# sourceMappingURL=auth.controler.js.map

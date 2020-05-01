@@ -1,6 +1,11 @@
+import { ConfigService } from '@nestjs/config';
+import { UserDto } from './../users/users.dto';
 import { Response } from "express";
+import { UsersService } from 'src/users/users.service';
 export declare class AuthController {
-    constructor();
-    signin(query: any, res: Response): Promise<Response<any>>;
-    signUp(user: any, res: Response): Promise<Response>;
+    userService: UsersService;
+    configService: ConfigService;
+    constructor(userService: UsersService, configService: ConfigService);
+    signin(query: UserDto, res: Response): Promise<Response<any>>;
+    signUp(user: UserDto, res: Response): Promise<Response>;
 }
