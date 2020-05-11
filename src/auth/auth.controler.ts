@@ -75,11 +75,12 @@ export class AuthController {
 
         const numberTypeSalt = Number(this.configService.get('SALT') as number);
         const salt = await bcrypt.genSalt(numberTypeSalt)
+        console.log(salt)
 
         return res.status(HttpStatus.OK).json({
             // data: accessToken,
             data:`Sign Up, body:${JSON.stringify(userInDB)}`,
-            error: null,
+            error: user,
           });
         
     } catch (error) {
