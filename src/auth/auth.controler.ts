@@ -34,9 +34,9 @@ export class AuthController {
     @Res() res: Response
   ) {
     try {
-      console.log('sign-up success, all info about user: jwt token',query);
+      // console.log('sign-up success, all info about user: jwt token',query);
       return res.status(HttpStatus.OK).json({
-        data:`Sign In, body:${JSON.stringify(query)}`,
+        data:'Sign In', query,
         error: null,
       });
     } catch (error) {
@@ -75,12 +75,12 @@ export class AuthController {
 
         const numberTypeSalt = Number(this.configService.get('SALT') as number);
         const salt = await bcrypt.genSalt(numberTypeSalt)
-        console.log(salt)
+        console.log('salt',salt)
 
         return res.status(HttpStatus.OK).json({
             // data: accessToken,
-            data:`Sign Up, body:${JSON.stringify(userInDB)}`,
-            error: user,
+            data:user,
+            error: null,
           });
         
     } catch (error) {
