@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     ConfigModule.forRoot({
       envFilePath:
         process.env.NODE_ENV === 'production' ? '.production.env' : '.env',
@@ -20,8 +23,8 @@ import { AuthModule } from './auth/auth.module';
         uri: configService.get('DATABASE'),
       }),
     }),
+    UsersModule
   ],
-  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
