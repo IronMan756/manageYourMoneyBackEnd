@@ -78,6 +78,7 @@ export class AuthController {
         const salt = await bcrypt.genSalt(numberTypeSalt);
         const hashPass = await bcrypt.hash(password, salt);
         const accessToken = await this.authService.createJwt(user);
+        // it works
 
         return res.status(HttpStatus.OK).json({
             data: accessToken,
