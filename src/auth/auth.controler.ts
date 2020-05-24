@@ -1,13 +1,22 @@
-import { Controller, Post, HttpStatus, Body, Res, UseGuards } from "@nestjs/common";
+import { AuthService } from './auth.service';
+import { ConfigService } from '@nestjs/config';
+import { UserDto } from './../users/users.dto';
+import { Controller, Post, HttpStatus, Body, Res, UseGuards, Get, Next } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Response } from "express";
 import { AuthGuard } from "@nestjs/passport";
+import { UsersService } from 'src/users/users.service';
+import * as bcrypt from 'bcrypt';
 
 @ApiTags("Auth")
 @Controller("auth")
 export class AuthController {
-  public constructor() {}
-  @Post("signin")
+  public constructor(
+    public userService: UsersService,
+    public configService: ConfigService,
+    public authService: AuthService
+  ) { }
+  @Post("sign-in")
   @ApiOperation({ description: "Login to system" })
   @ApiResponse({
     description: "Log in success ",
@@ -22,15 +31,22 @@ export class AuthController {
     status: HttpStatus.INTERNAL_SERVER_ERROR
   })
   public async signin(
-    @Body() query: any,
+    @Body() query: UserDto,
     //   LoginDto
     @Res() res: Response
   ) {
     try {
-      console.log(query);
-      return res.status(HttpStatus.OK).json({
-        data:`Sign In, body:${JSON.stringify(query)}`,
-        error: null,
+
+      const isUser = await this.userService.findUser({ email: query.email })
+      if (isUser) {
+        return res.status(HttpStatus.OK).json({
+          authorased: true,
+          error: null,
+        });
+      }
+      return res.status(HttpStatus.CONFLICT).json({
+        data: null,
+        error: 'User with this email is not exist'
       });
     } catch (error) {
       return res
@@ -38,8 +54,8 @@ export class AuthController {
         .json({ data: null, error });
     }
   }
-//   @UseGuards(AuthGuard('jwt'))
-  @Post("signup")
+  //   @UseGuards(AuthGuard('jwt'))
+  @Post("sign-up")
   @ApiOperation({ description: "Sign up" })
   @ApiResponse({
     description: "Sign up success",
@@ -51,19 +67,36 @@ export class AuthController {
   })
   //   @UseInterceptors(FileInterceptor('avatar'))
   public async signUp(
-    @Body() user: any,
+    @Body() user: UserDto,
     // SignUpDto
     @Res() res: Response
     // @UploadedFile() avatar: Buffer,
   ): Promise<Response> {
     try {
-        console.log('Sign Up, body:',user)
-        return res.status(HttpStatus.OK).json({
-            // data: accessToken,
-            data:`Sign Up, body:${JSON.stringify(user)}`,
-            error: null,
-          });
-        
+      const { email, password } = user;
+      const userInDB = await this.userService.findUser({ email: email });
+      if (userInDB) {
+        return res.status(HttpStatus.CONFLICT).json({
+          data: null,
+          error: 'This email already exists'
+        });
+      }
+      const numberTypeSalt = Number(this.configService.get('SALT') as number);
+      const salt = await bcrypt.genSalt(numberTypeSalt);
+      const hashPass = await bcrypt.hash(password, salt);
+      const accessToken = await this.authService.createJwt(user);
+      const newUser = await this.userService.createUser({
+        ...user,
+        accessToken,
+        password: hashPass
+      })
+
+      delete newUser.password
+      return res.status(HttpStatus.OK).json({
+        data: accessToken,
+        error: null,
+      });
+
     } catch (error) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -72,27 +105,3 @@ export class AuthController {
   }
 }
 
-// Example:
-// @Post('signin')
-// @ApiOperation({ description: 'Login to system' })
-// @ApiResponse({
-//     description: 'You have successfully logged in',
-//     status: HttpStatus.OK,
-// })
-// @ApiResponse({
-//     description: 'Wrong credentials',
-//     status: HttpStatus.UNAUTHORIZED,
-// })
-// @ApiResponse({
-//     description: 'Server error',
-//     status: HttpStatus.INTERNAL_SERVER_ERROR,
-// })
-// public async signin(@Body() query: any
-// //   LoginDto
-// , @Res() res: Response) {
-//     try {
-// }  catch (error) {
-//     return res
-//       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//       .json({ data: null, error });
-//   }
