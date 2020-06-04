@@ -73,6 +73,7 @@ export class AuthController {
     // @UploadedFile() avatar: Buffer,
   ): Promise<Response> {
     try {
+      console.log('user',user);
       const { email, password } = user;
       const userInDB = await this.userService.findUser({ email: email });
       if (userInDB) {
