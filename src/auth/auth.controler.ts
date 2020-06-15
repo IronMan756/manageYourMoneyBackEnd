@@ -36,7 +36,7 @@ export class AuthController {
     @Res() res: Response
   ) {
     try {
-
+      console.log('query',query)
       const isUser = await this.userService.findUser({ email: query.email })
       if (isUser) {
         return res.status(HttpStatus.OK).json({
@@ -73,6 +73,7 @@ export class AuthController {
     // @UploadedFile() avatar: Buffer,
   ): Promise<Response> {
     try {
+      console.log(user)
       const { email, password } = user;
       const userInDB = await this.userService.findUser({ email: email });
       if (userInDB) {
