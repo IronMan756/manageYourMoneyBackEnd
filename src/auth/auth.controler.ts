@@ -36,12 +36,10 @@ export class AuthController {
     @Res() res: Response
   ) {
     try {
-      console.log('query',query)
-      const isUser = await this.userService.findUser({ email: query.email })
-      if (isUser) {
-        console.log('da!!!!!!')
+      const user: UserDto = await this.userService.findUser({ email: query.email })
+      if (user) {
         return res.status(HttpStatus.OK).json({
-          authorased: true,
+          token: user.accessToken,
           error: null,
         });
       }
@@ -75,8 +73,8 @@ export class AuthController {
   ): Promise<Response> {
     try {
       console.log(user)
-      const { email, password } = user;
-      const userInDB = await this.userService.findUser({ email: email });
+      const { email, password, login } = user;
+      const userInDB = await this.userService.findUser({ email });
       if (userInDB) {
         return res.status(HttpStatus.CONFLICT).json({
           data: null,
@@ -86,7 +84,8 @@ export class AuthController {
       const numberTypeSalt = Number(this.configService.get('SALT') as number);
       const salt = await bcrypt.genSalt(numberTypeSalt);
       const hashPass = await bcrypt.hash(password, salt);
-      const accessToken = await this.authService.createJwt(user);
+
+      const accessToken = await this.authService.createJwt(login, password, email);
       const newUser = await this.userService.createUser({
         ...user,
         accessToken,
@@ -96,7 +95,7 @@ export class AuthController {
       delete newUser.password
       console.log(accessToken)
       return res.status(HttpStatus.OK).json({
-        data: accessToken,
+        data: null,
         error: null,
       });
 
