@@ -39,6 +39,7 @@ export class AuthController {
       console.log('query',query)
       const isUser = await this.userService.findUser({ email: query.email })
       if (isUser) {
+        console.log('da!!!!!!')
         return res.status(HttpStatus.OK).json({
           authorased: true,
           error: null,
@@ -93,6 +94,7 @@ export class AuthController {
       })
 
       delete newUser.password
+      console.log(accessToken)
       return res.status(HttpStatus.OK).json({
         data: accessToken,
         error: null,
