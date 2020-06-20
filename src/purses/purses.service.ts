@@ -7,15 +7,17 @@ import { PursesDto } from "./purses.dto";
 export class PursesService {
     public constructor(
         @InjectModel('Purse') private readonly _purseModel: Model<any>
-    ){}
-    public async findPurse(query: PursesDto){
-        return this._purseModel.find(query).lean().exec();
+    ) { }
+    public async find(quary: string) {
+        return this._purseModel.find({quary}).lean().exec();
     }
-    
     public async createPurse(
-        purse:PursesDto
-    ){
+        purse: PursesDto
+    ) {
         const createPurse = new this._purseModel(purse);
         return createPurse.save();
+    }
+    public async removePurse(purseId: string) {
+        return this._purseModel.remove({ _id: purseId });;
     }
 }

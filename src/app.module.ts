@@ -5,6 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PursesModule } from './purses/purses.module';
+import { TransactionsModule } from './transactions/transactions.module';
+import { CategoriesModule } from './category/category.module';
+import { ExpencesModule } from './expences/expences.module';
+import { IncomesModule } from './incomes/incomes.module';
+
 
 @Module({
   imports: [
@@ -22,7 +27,11 @@ import { PursesModule } from './purses/purses.module';
       }),
     }),
     UsersModule,
-    PursesModule
+    PursesModule,
+    TransactionsModule,
+    IncomesModule,
+    ExpencesModule,
+    CategoriesModule
   ],
   providers: [AppService],
 })

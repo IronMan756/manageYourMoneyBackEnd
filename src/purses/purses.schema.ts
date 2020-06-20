@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
-
 export const purseSchema: mongoose.Schema = new mongoose.Schema({
-    idUser:{
+    userId:{
         type: String
     },
     name:{
@@ -12,6 +11,5 @@ export const purseSchema: mongoose.Schema = new mongoose.Schema({
     },
     balance:{
         type: Number
-    },
-    // _id:
+    }
 })

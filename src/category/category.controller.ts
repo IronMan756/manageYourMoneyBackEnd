@@ -1,41 +1,41 @@
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from "@nestjs/swagger";
-import { Controller, Get, HttpStatus, Query, Res, UseGuards, Post, Body, Delete } from "@nestjs/common";
-import { PursesService } from "./purses.service";
-import { Response } from "express";
+import { Controller, UseGuards, Get, HttpStatus, Query, Res, Post, Body, Delete } from "@nestjs/common";
+import { Response } from 'express';
 import { AuthGuard } from "@nestjs/passport";
-import { PursesDto } from "./purses.dto";
+import { CategoriesService } from "./category.service";
+import { CategoriesDto } from "./category.dto";
 
-
-@ApiTags('purses')
-@Controller('purses')
-export class PursesController {
+@ApiTags('categories')
+@Controller('categories')
+export class CategoriesController {
     public constructor(
-        public pursesService: PursesService
+        public categoriesService: CategoriesService
     ) { }
+
     @UseGuards(AuthGuard('jwt'))
     @Get('')
-    @ApiOperation({ description: 'Get purses' })
+    @ApiOperation({ description: 'Find categories' })
     @ApiResponse({
-        description: 'Find purses success',
+        description: 'Find categories success',
         status: HttpStatus.OK
     })
     @ApiResponse({
-        description: "Any purses weren't found",
+        description: "Any categories weren't found",
         status: HttpStatus.NOT_FOUND
     })
     @ApiResponse({
         description: "Server error",
         status: HttpStatus.INTERNAL_SERVER_ERROR
     })
-    @ApiQuery({ name: 'quary', required: false, description: 'Find purse by some query' })
-    public async findPurses(
+    @ApiQuery({ name: 'quary', required: false, description: 'Find categoriy by some query' })
+    public async findCategories(
         @Query() quary: any,
         @Res() res: Response
     ) {
         try {
-            const purse = await this.pursesService.find(quary)
+            const incomes = await this.categoriesService.find(quary)
             return res.status(HttpStatus.OK).json({
-                data: purse,
+                data: incomes,
                 error: null,
             });
         }
@@ -47,23 +47,23 @@ export class PursesController {
 
     @UseGuards(AuthGuard('jwt'))
     @Post('')
-    @ApiOperation({ description: 'Create new a purse' })
+    @ApiOperation({ description: 'Create new category' })
     @ApiResponse({
-        description: 'Create new a purse success',
+        description: 'Create new category success',
         status: HttpStatus.OK
     })
     @ApiResponse({
         description: "Server error",
         status: HttpStatus.INTERNAL_SERVER_ERROR
     })
-    public async createPurses(
-        @Body() purse: PursesDto,
+    public async createCategory(
+        @Body() category: CategoriesDto,
         @Res() res: Response
     ) {
         try {
-            const newPurse = await this.pursesService.createPurse(purse);
+            const newCategory = await this.categoriesService.createCategory(category);
             return res.status(HttpStatus.OK).json({
-                data: newPurse,
+                data: newCategory,
                 error: null,
             });
         }
@@ -72,26 +72,24 @@ export class PursesController {
         }
     }
 
-
-
     @UseGuards(AuthGuard('jwt'))
     @Delete('')
-    @ApiOperation({ description: 'Delete the purse' })
+    @ApiOperation({ description: 'Delete the category' })
     @ApiResponse({
-        description: 'Delete the purse success',
+        description: 'Delete the category success',
         status: HttpStatus.OK
     })
     @ApiResponse({
         description: "Server error",
         status: HttpStatus.INTERNAL_SERVER_ERROR
     })
-    @ApiQuery({ name: 'id', required: true, description: 'Purse id' })
-    public async deletePurses(
-        @Query('id') purseId: string,
+    @ApiQuery({ name: 'id', required: true, description: 'Category id' })
+    public async deleteCategory(
+        @Query('id') categoryId: string,
         @Res() res: Response
     ) {
         try {
-            await this.pursesService.removePurse(purseId);
+            await this.categoriesService.removeCategory(categoryId);
             return res.status(HttpStatus.OK).json({
                 data: true,
                 error: null,

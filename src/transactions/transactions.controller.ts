@@ -1,41 +1,41 @@
+import { TransactionsService } from "./transactions.service";
+import { TransactionsDto } from "./transactions.dto";
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from "@nestjs/swagger";
-import { Controller, Get, HttpStatus, Query, Res, UseGuards, Post, Body, Delete } from "@nestjs/common";
-import { PursesService } from "./purses.service";
-import { Response } from "express";
+import { Controller, UseGuards, Get, HttpStatus, Query, Res, Post, Body, Delete } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { PursesDto } from "./purses.dto";
+import { Response }  from "express"
 
-
-@ApiTags('purses')
-@Controller('purses')
-export class PursesController {
+@ApiTags('transactions')
+@Controller('transactions')
+export class TransactionsController{
     public constructor(
-        public pursesService: PursesService
-    ) { }
+        public transactionsService: TransactionsService
+    ){}   
+
     @UseGuards(AuthGuard('jwt'))
     @Get('')
-    @ApiOperation({ description: 'Get purses' })
+    @ApiOperation({ description: 'Find transactions' })
     @ApiResponse({
-        description: 'Find purses success',
+        description: 'Find transactions success',
         status: HttpStatus.OK
     })
     @ApiResponse({
-        description: "Any purses weren't found",
+        description: "Any transactions weren't found",
         status: HttpStatus.NOT_FOUND
     })
     @ApiResponse({
         description: "Server error",
         status: HttpStatus.INTERNAL_SERVER_ERROR
     })
-    @ApiQuery({ name: 'quary', required: false, description: 'Find purse by some query' })
-    public async findPurses(
+    @ApiQuery({ name: 'quary', required: false, description: 'Find transaction by some query' })
+    public async findTransactions(
         @Query() quary: any,
         @Res() res: Response
     ) {
         try {
-            const purse = await this.pursesService.find(quary)
+            const transactions = await this.transactionsService.find(quary)
             return res.status(HttpStatus.OK).json({
-                data: purse,
+                data: transactions,
                 error: null,
             });
         }
@@ -47,23 +47,23 @@ export class PursesController {
 
     @UseGuards(AuthGuard('jwt'))
     @Post('')
-    @ApiOperation({ description: 'Create new a purse' })
+    @ApiOperation({ description: 'Create new transaction' })
     @ApiResponse({
-        description: 'Create new a purse success',
+        description: 'Create new transaction success',
         status: HttpStatus.OK
     })
     @ApiResponse({
         description: "Server error",
         status: HttpStatus.INTERNAL_SERVER_ERROR
     })
-    public async createPurses(
-        @Body() purse: PursesDto,
+    public async createTransaction(
+        @Body() transaction: TransactionsDto,
         @Res() res: Response
     ) {
         try {
-            const newPurse = await this.pursesService.createPurse(purse);
+            const newTransaction = await this.transactionsService.createTransaction(transaction);
             return res.status(HttpStatus.OK).json({
-                data: newPurse,
+                data: newTransaction,
                 error: null,
             });
         }
@@ -71,27 +71,25 @@ export class PursesController {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ data: null, error });
         }
     }
-
-
-
+    
     @UseGuards(AuthGuard('jwt'))
     @Delete('')
-    @ApiOperation({ description: 'Delete the purse' })
+    @ApiOperation({ description: 'Delete the transaction' })
     @ApiResponse({
-        description: 'Delete the purse success',
+        description: 'Delete the transaction success',
         status: HttpStatus.OK
     })
     @ApiResponse({
         description: "Server error",
         status: HttpStatus.INTERNAL_SERVER_ERROR
     })
-    @ApiQuery({ name: 'id', required: true, description: 'Purse id' })
-    public async deletePurses(
-        @Query('id') purseId: string,
+    @ApiQuery({ name: 'id', required: true, description: 'Transactionid' })
+    public async deleteTransaction(
+        @Query('id') transactionId: string,
         @Res() res: Response
     ) {
         try {
-            await this.pursesService.removePurse(purseId);
+            await this.transactionsService.removeTransaction(transactionId);
             return res.status(HttpStatus.OK).json({
                 data: true,
                 error: null,
