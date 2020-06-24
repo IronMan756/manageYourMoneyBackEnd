@@ -15,7 +15,7 @@ export class AuthController {
     public userService: UsersService,
     public configService: ConfigService,
     public authService: AuthService
-  ) { }
+  ) {}
   @Post("sign-in")
   @ApiOperation({ description: "Login to system" })
   @ApiResponse({
@@ -36,18 +36,10 @@ export class AuthController {
     @Res() res: Response
   ) {
     try {
-
-      const user = await this.userService.findUser({ email: query.email })
-      if (user) {
-        return res.status(HttpStatus.OK).json({
-          data: user,
-          authorased: true,
-          error: null,
-        });
-      }
-      return res.status(HttpStatus.CONFLICT).json({
-        data: null,
-        error: 'User with this email is not exist'
+      // console.log('sign-up success, all info about user: jwt token',query);
+      return res.status(HttpStatus.OK).json({
+        data:'Sign In', query,
+        error: null,
       });
     } catch (error) {
       return res
@@ -55,7 +47,7 @@ export class AuthController {
         .json({ data: null, error });
     }
   }
-  //   @UseGuards(AuthGuard('jwt'))
+//   @UseGuards(AuthGuard('jwt'))
   @Post("sign-up")
   @ApiOperation({ description: "Sign up" })
   @ApiResponse({
@@ -74,31 +66,25 @@ export class AuthController {
     // @UploadedFile() avatar: Buffer,
   ): Promise<Response> {
     try {
-      const { email, password } = user;
-      const userInDB = await this.userService.findUser({ email: email });
-      if (userInDB) {
-        return res.status(HttpStatus.CONFLICT).json({
-          data: null,
-          error: 'This email already exists'
-        });
-      }
-      // const numberTypeSalt = Number(this.configService.get('SALT') as number);
-      // const salt = await bcrypt.genSalt(numberTypeSalt);
-      // const hashPass = await bcrypt.hash(password, salt);
-      const accessToken = await this.authService.createJwt(user);
-      const newUser = await this.userService.createUser({
-        ...user,
-        accessToken,
-        password: password
-        // hashPass
-      })
+        const { email, password,login } = user;
+        const userInDB = await this.userService.findUser( email );  
+        if( userInDB ) {
+          return res.status(HttpStatus.CONFLICT).json({
+            data: null,
+            error: 'This email already exists'
+          });
+        }
+        const numberTypeSalt = Number(this.configService.get('SALT') as number);
+        // const salt = await bcrypt.genSalt(numberTypeSalt);
+        // const hashPass = await bcrypt.hash(password, salt);
+        const accessToken = await this.authService.createJwt(login, password, email);
+        // it works
 
-      delete newUser.password
-      return res.status(HttpStatus.OK).json({
-        data: accessToken,
-        error: null,
-      });
-
+        return res.status(HttpStatus.OK).json({
+            data: user,
+            error: null,
+          });
+        
     } catch (error) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
