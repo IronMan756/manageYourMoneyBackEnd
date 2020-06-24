@@ -6,7 +6,7 @@ import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Response } from "express";
 import { AuthGuard } from "@nestjs/passport";
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -37,9 +37,10 @@ export class AuthController {
   ) {
     try {
 
-      const isUser = await this.userService.findUser({ email: query.email })
-      if (isUser) {
+      const user = await this.userService.findUser({ email: query.email })
+      if (user) {
         return res.status(HttpStatus.OK).json({
+          data: user,
           authorased: true,
           error: null,
         });
@@ -81,14 +82,15 @@ export class AuthController {
           error: 'This email already exists'
         });
       }
-      const numberTypeSalt = Number(this.configService.get('SALT') as number);
-      const salt = await bcrypt.genSalt(numberTypeSalt);
-      const hashPass = await bcrypt.hash(password, salt);
+      // const numberTypeSalt = Number(this.configService.get('SALT') as number);
+      // const salt = await bcrypt.genSalt(numberTypeSalt);
+      // const hashPass = await bcrypt.hash(password, salt);
       const accessToken = await this.authService.createJwt(user);
       const newUser = await this.userService.createUser({
         ...user,
         accessToken,
-        password: hashPass
+        password: password
+        // hashPass
       })
 
       delete newUser.password
