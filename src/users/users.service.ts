@@ -15,7 +15,7 @@ export class UsersService{
             .exec();
 
     }
-    public async find(query: any): Promise<any>{
+    public async find(): Promise<any>{
         return this.userModel
             .find({})
             .lean()

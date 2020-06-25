@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
 import { ConfigService } from '@nestjs/config';
 import { UserDto } from './../users/users.dto';
-import { Controller, Post, HttpStatus, Body, Res, UseGuards, Get, Next } from "@nestjs/common";
+import { Controller, Post, HttpStatus, Body, Res, UseGuards, Get, Next, Query } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Response } from "express";
 import { AuthGuard } from "@nestjs/passport";
@@ -36,9 +36,10 @@ export class AuthController {
     @Res() res: Response
   ) {
     try {
-      // console.log('sign-up success, all info about user: jwt token',query);
+      const user: UserDto = await this.userService.findUser({ email: query.email });
+      console.log(user);
       return res.status(HttpStatus.OK).json({
-        data:'Sign In', query,
+        token:user.accessToken,
         error: null,
       });
     } catch (error) {
