@@ -68,7 +68,7 @@ export class AuthController {
   ): Promise<Response> {
     try {
         const { email, password,login } = user;
-        const userInDB = await this.userService.findUser( email );  
+        const userInDB = await this.userService.findUser( {email} );  
         if( userInDB ) {
           return res.status(HttpStatus.CONFLICT).json({
             data: null,
