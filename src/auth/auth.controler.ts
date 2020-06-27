@@ -6,7 +6,7 @@ import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Response } from "express";
 import { AuthGuard } from "@nestjs/passport";
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -80,7 +80,11 @@ export class AuthController {
         // const hashPass = await bcrypt.hash(password, salt);
         const accessToken = await this.authService.createJwt(login, password, email);
         // it works
-
+        const newUser = await this.userService.createUser({
+          ...user,
+          accessToken,
+          password: password,
+        });
         return res.status(HttpStatus.OK).json({
             data: user,
             error: null,
