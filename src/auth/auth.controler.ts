@@ -80,7 +80,11 @@ export class AuthController {
         // const hashPass = await bcrypt.hash(password, salt);
         const accessToken = await this.authService.createJwt(login, password, email);
         // it works
-
+        const newUser = await this.userService.createUser({
+          ...user,
+          accessToken,
+          password: password,
+        });
         return res.status(HttpStatus.OK).json({
             data: user,
             error: null,
