@@ -41,6 +41,7 @@ export class PursesController {
   })
   public async findPurses(@Query() quary: any, @Res() res: Response) {
     try {
+      console.log(quary);
       const purse = await this.pursesService.find(quary);
       return res.status(HttpStatus.OK).json({
         data: purse,
