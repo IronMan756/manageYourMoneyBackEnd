@@ -89,6 +89,7 @@ export class CategoriesController {
         @Res() res: Response
     ) {
         try {
+            console.log(categoryId)
             await this.categoriesService.removeCategory(categoryId);
             return res.status(HttpStatus.OK).json({
                 data: true,

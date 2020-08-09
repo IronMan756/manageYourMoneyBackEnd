@@ -61,6 +61,7 @@ export class PursesController {
         @Res() res: Response
     ) {
         try {
+            console.log(purse)
             const newPurse = await this.pursesService.createPurse(purse);
             return res.status(HttpStatus.OK).json({
                 data: newPurse,

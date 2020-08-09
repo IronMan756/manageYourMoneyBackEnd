@@ -25,6 +25,7 @@ export class UsersService{
     public async createUser (
         user: UserDto & { accessToken: string}
     ):Promise<UserDto>{
+        console.log(user)
         const createUser = new this.userModel(user);
         return createUser.save();
     }

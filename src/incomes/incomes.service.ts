@@ -9,11 +9,15 @@ export class IncomesService {
         @InjectModel('Income') private readonly _incomeModel: Model<any>
     ) { }
     public async find(quary: any) {
-        return this._incomeModel.find(quary).lean().exec();
+        const { userId, purseId, suma, data, name, _id } = quary
+        console.log( 'userId',userId, 'purseId',purseId, 'suma',suma, 'data',data, 'name',name, "_id",_id)
+
+        return this._incomeModel.find({}).lean().exec();
     }
     public async createIncome(
         income: IncomesDto
     ) {
+        console.log(income)
         const createIncome = new this._incomeModel(income);
         return createIncome.save();
     }

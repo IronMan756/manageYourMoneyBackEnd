@@ -9,7 +9,7 @@ export class PursesService {
         @InjectModel('Purse') private readonly _purseModel: Model<any>
     ) { }
     public async find(quary: string) {
-        return this._purseModel.find({quary}).lean().exec();
+        return this._purseModel.find({}).lean().exec();
     }
     public async createPurse(
         purse: PursesDto
