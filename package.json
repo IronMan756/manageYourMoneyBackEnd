@@ -4,8 +4,6 @@
   "description": "",
   "author": "",
   "license": "MIT",
- 
- 
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -33,7 +31,7 @@
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "mongodb": "^3.5.7",
-    "mongoose": "^5.9.19",
+    "mongoose": "^5.9.29",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
