@@ -10,7 +10,7 @@ export class UsersService {
   ) {}
   public async findUser(email: string): Promise<any> {
     return this.userModel
-      .findOne({ email })
+      .findOne({ email }, { _id: 0, __v: 0 })
       .lean()
       .exec();
   }
@@ -23,7 +23,6 @@ export class UsersService {
   public async createUser(
     user: UserDto & { accessToken: string }
   ): Promise<UserDto> {
-    console.log(user);
     const createUser = new this.userModel(user);
     return createUser.save();
   }
