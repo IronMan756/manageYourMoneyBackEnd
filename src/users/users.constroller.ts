@@ -1,16 +1,13 @@
-import { UsersService } from './users.service';
+import { UsersService } from "./users.service";
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from "@nestjs/swagger";
-import { Controller, Get, HttpStatus, Res, Query, UseGuards } from "@nestjs/common";
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, HttpStatus, Res, Query } from "@nestjs/common";
+import * as bcrypt from "bcrypt";
 import { Response } from "express";
 
 @ApiTags("user")
 @Controller("user")
 export class UsersController {
-  public constructor( 
-      private readonly _userServise: UsersService
-  ) {}
-  @UseGuards(AuthGuard("jwt"))
+  public constructor(private readonly _userServise: UsersService) {}
   @Get("")
   @ApiOperation({ description: "Find user" })
   @ApiResponse({
@@ -32,7 +29,15 @@ export class UsersController {
   })
   public async findUser(@Query() quary: any, @Res() res: Response) {
     try {
-      const user = await this._userServise.findUser(quary);
+      const { email, pass: password } = quary;
+      const user = await this._userServise.findUser(email);
+
+      if (!user || (user && !(await bcrypt.compare(password, user.password)))) {
+        return res.status(HttpStatus.UNAUTHORIZED).json({
+          data: null,
+          error: "Invalid email and/or password",
+        });
+      }
       return res.status(HttpStatus.OK).json({
         data: user,
         error: null,
