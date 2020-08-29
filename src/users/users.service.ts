@@ -10,7 +10,7 @@ export class UsersService {
   ) {}
   public async findUser(email: string): Promise<any> {
     return this.userModel
-      .findOne({ email }, { password: 0, __v: 0 })
+      .findOne({ email }, { __v: 0 })
       .lean()
       .exec();
   }

@@ -37,6 +37,7 @@ export class UsersController {
           error: "Invalid email and/or password",
         });
       }
+      delete user.password;
       return res.status(HttpStatus.OK).json({
         data: user,
         error: null,
