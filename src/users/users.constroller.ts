@@ -30,14 +30,17 @@ export class UsersController {
   public async findUser(@Query() quary: any, @Res() res: Response) {
     try {
       const { email, pass } = quary;
-      const user = await this._userServise.findUser(email);
+      let user = await this._userServise.findUser(email);
       if (!user || (user && !(await bcrypt.compare(pass, user.password)))) {
         return res.status(HttpStatus.UNAUTHORIZED).json({
           data: null,
           error: "Invalid email and/or password",
         });
       }
+
+      user = { ...user, id: user._id };
       delete user.password;
+      delete user._id;
       return res.status(HttpStatus.OK).json({
         data: user,
         error: null,
