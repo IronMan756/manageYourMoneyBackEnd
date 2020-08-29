@@ -48,7 +48,15 @@ export class AuthController {
     try {
       const user: UserDto = await this.userService.findUser(query.email);
       console.log(user);
-
+      if (
+        !user ||
+        (user && !(await bcrypt.compare(query.password, user.password)))
+      ) {
+        return res.status(HttpStatus.UNAUTHORIZED).json({
+          data: null,
+          error: "Invalid email and/or password",
+        });
+      }
       return res.status(HttpStatus.OK).json({
         token: user.accessToken,
         error: null,
