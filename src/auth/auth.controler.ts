@@ -77,7 +77,7 @@ export class AuthController {
             error: 'This email already exists'
           });
         }
-        // const numberTypeSalt = Number(this.configService.get('SALT') as number);
+        const numberTypeSalt = Number(this.configService.get('SALT') as number);
         // const salt = await bcrypt.genSalt(numberTypeSalt);
         // const hashPass = await bcrypt.hash(password, salt);
         const accessToken = await this.authService.createJwt(login, password, email);
