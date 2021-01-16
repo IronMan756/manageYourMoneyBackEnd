@@ -35,7 +35,10 @@ export class AuthController {
     @Res() res: Response
   ) {
     try {
-      const user: UserDto = await this.userService.findUser(query.email);
+      const user: UserDto = await this.userService.findUser({
+        email: query.email,
+      });
+      console.log(user);
       if (
         !user ||
         (user && !(await bcrypt.compare(query.password, user.password)))
