@@ -41,7 +41,6 @@ export class PursesController {
     description: "Find purse by some query",
   })
   public async findPurses(
-    // @Query() quary: any,
     @Param("collName") collName: string,
     @Res() res: Response
   ) {
