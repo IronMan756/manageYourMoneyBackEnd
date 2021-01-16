@@ -9,6 +9,7 @@ import {
   Post,
   Body,
   Delete,
+  Param,
 } from "@nestjs/common";
 import { PursesService } from "./purses.service";
 import { Response } from "express";
@@ -20,7 +21,7 @@ import { PursesDto } from "./purses.dto";
 export class PursesController {
   public constructor(public pursesService: PursesService) {}
   @UseGuards(AuthGuard("jwt"))
-  @Get("")
+  @Get("/:collName")
   @ApiOperation({ description: "Get purses" })
   @ApiResponse({
     description: "Find purses success",
@@ -39,11 +40,16 @@ export class PursesController {
     required: false,
     description: "Find purse by some query",
   })
-  public async findPurses(@Query() quary: any, @Res() res: Response) {
+  public async findPurses(
+    // @Query() quary: any,
+    @Param("collName") collName: string,
+    @Res() res: Response
+  ) {
     try {
-      const purse = await this.pursesService.find(quary);
+      await this.pursesService.migrate(collName);
+
       return res.status(HttpStatus.OK).json({
-        data: purse,
+        data: "purse",
         error: null,
       });
     } catch (error) {

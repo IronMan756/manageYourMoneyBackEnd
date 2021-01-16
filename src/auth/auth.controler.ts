@@ -1,10 +1,10 @@
 import { AuthService } from './auth.service';
 import { ConfigService } from '@nestjs/config';
 import { UserDto } from './../users/users.dto';
-import { Controller, Post, HttpStatus, Body, Res, UseGuards, Get, Next, Query } from "@nestjs/common";
+import { Controller, Post, HttpStatus, Body, Res } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Response } from "express";
-import { AuthGuard } from "@nestjs/passport";
+// import { AuthGuard } from "@nestjs/passport";
 import { UsersService } from 'src/users/users.service';
 // import * as bcrypt from 'bcrypt';
 
@@ -77,7 +77,7 @@ export class AuthController {
             error: 'This email already exists'
           });
         }
-        // const numberTypeSalt = Number(this.configService.get('SALT') as number);
+        const numberTypeSalt = Number(this.configService.get('SALT') as number);
         // const salt = await bcrypt.genSalt(numberTypeSalt);
         // const hashPass = await bcrypt.hash(password, salt);
         const accessToken = await this.authService.createJwt(login, password, email);
