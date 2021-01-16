@@ -15,7 +15,7 @@ export class UsersService{
             .exec();
 
     }
-    public async find(query: any): Promise<any>{
+    public async find(): Promise<any>{
         return this.userModel
             .find({})
             .lean()
@@ -25,6 +25,7 @@ export class UsersService{
     public async createUser (
         user: UserDto & { accessToken: string}
     ):Promise<UserDto>{
+        console.log(user)
         const createUser = new this.userModel(user);
         return createUser.save();
     }

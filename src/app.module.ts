@@ -4,13 +4,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { PursesModule } from './purses/purses.module';
+import { TransactionsModule } from './transactions/transactions.module';
+import { CategoriesModule } from './category/category.module';
+import { ExpencesModule } from './expences/expences.module';
+import { IncomesModule } from './incomes/incomes.module';
+
 
 @Module({
   imports: [
     AuthModule,
-    ConfigModule.forRoot({
-      isGlobal: true
-    }),
     ConfigModule.forRoot({
       envFilePath:
         process.env.NODE_ENV === 'production' ? '.production.env' : '.env',
@@ -23,7 +26,12 @@ import { UsersModule } from './users/users.module';
         uri: configService.get('DATABASE'),
       }),
     }),
-    UsersModule
+    UsersModule,
+    PursesModule,
+    TransactionsModule,
+    IncomesModule,
+    ExpencesModule,
+    CategoriesModule
   ],
   providers: [AppService],
 })
