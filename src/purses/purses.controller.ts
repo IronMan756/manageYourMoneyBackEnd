@@ -14,14 +14,12 @@ import { PursesService } from "./purses.service";
 import { Response } from "express";
 import { AuthGuard } from "@nestjs/passport";
 import { PursesDto } from "./purses.dto";
-import { Param } from "@nestjs/common/decorators/http/route-params.decorator";
 
 @ApiTags("purses")
 @Controller("purses")
 export class PursesController {
   public constructor(public pursesService: PursesService) {}
   @UseGuards(AuthGuard("jwt"))
-  // @Get("/:collName")
   @Get("")
   @ApiOperation({ description: "Get purses" })
   @ApiResponse({
@@ -41,15 +39,11 @@ export class PursesController {
     required: false,
     description: "Find purse by some query",
   })
-  public async findPurses(
-    // @Param("collName") collName: string,
-    @Res() res: Response
-  ) {
+  public async findPurses(@Query() quary: any, @Res() res: Response) {
     try {
-      // await this.pursesService.migrate(collName);
-
+      const purse = await this.pursesService.find(quary);
       return res.status(HttpStatus.OK).json({
-        data: "purse",
+        data: purse,
         error: null,
       });
     } catch (error) {

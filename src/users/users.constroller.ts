@@ -43,7 +43,8 @@ export class UsersController {
       delete user._id;
 
       return res.status(HttpStatus.OK).json({
-        data: [user],
+        // data: [user],
+        data: user,
         error: null,
       });
     } catch (error) {
