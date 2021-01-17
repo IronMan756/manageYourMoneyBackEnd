@@ -41,8 +41,9 @@ export class UsersController {
       user = { ...user, id: user._id };
       delete user.password;
       delete user._id;
+
       return res.status(HttpStatus.OK).json({
-        data: user,
+        data: [user],
         error: null,
       });
     } catch (error) {
