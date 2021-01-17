@@ -30,7 +30,7 @@ export class UsersController {
   public async findUser(@Query() quary: any, @Res() res: Response) {
     try {
       const { email, pass } = quary;
-      let user = await this._userServise.findUser({ email });
+      let user = await this._userServise.findUser(email);
       if (!user || (user && !(await bcrypt.compare(pass, user.password)))) {
         return res.status(HttpStatus.UNAUTHORIZED).json({
           data: null,

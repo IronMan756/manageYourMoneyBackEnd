@@ -35,9 +35,7 @@ export class AuthController {
     @Res() res: Response
   ) {
     try {
-      const user: UserDto = await this.userService.findUser({
-        email: query.email,
-      });
+      const user: UserDto = await this.userService.findUser(query.email);
       console.log(user);
       if (
         !user ||
@@ -79,7 +77,7 @@ export class AuthController {
     try {
       const { email, password, login } = user;
 
-      const userInDB = await this.userService.findUser({ email });
+      const userInDB = await this.userService.findUser(email);
 
       if (userInDB) {
         return res.status(HttpStatus.CONFLICT).json({
