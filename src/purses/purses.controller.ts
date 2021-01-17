@@ -21,7 +21,8 @@ import { Param } from "@nestjs/common/decorators/http/route-params.decorator";
 export class PursesController {
   public constructor(public pursesService: PursesService) {}
   @UseGuards(AuthGuard("jwt"))
-  @Get("/:collName")
+  // @Get("/:collName")
+  @Get("")
   @ApiOperation({ description: "Get purses" })
   @ApiResponse({
     description: "Find purses success",
@@ -41,11 +42,11 @@ export class PursesController {
     description: "Find purse by some query",
   })
   public async findPurses(
-    @Param("collName") collName: string,
+    // @Param("collName") collName: string,
     @Res() res: Response
   ) {
     try {
-      await this.pursesService.migrate(collName);
+      // await this.pursesService.migrate(collName);
 
       return res.status(HttpStatus.OK).json({
         data: "purse",
