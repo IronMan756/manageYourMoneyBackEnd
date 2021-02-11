@@ -2,10 +2,10 @@ import { Controller, Get, HttpStatus, Res } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Response } from "express";
 
-@Controller()
+@Controller("/xxx")
 export class AppController {
   constructor() {}
-  @Get("")
+  @Get("/xxx")
   @ApiOperation({ description: "Find user" })
   @ApiResponse({
     description: "Find user success",
@@ -21,6 +21,7 @@ export class AppController {
   })
   public async findUser(@Res() res: Response) {
     try {
+      console.log("zhjvdblj");
       return res.status(HttpStatus.OK).json({
         // data: [user],
         data: "It is succceeesss!!!! Ura!!!!!",
