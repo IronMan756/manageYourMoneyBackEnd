@@ -24,8 +24,7 @@ export class AppController {
       console.log("zhjvdblj");
       return res.status(HttpStatus.OK).json({
         // data: [user],
-        data:
-          "It is succceeesss!!!! Ura!!!!!222222222222222222222222222222222222222222222",
+        data: ",kf m,kfkmzo;van123589cvlkj zsdvkjnlkv  I DID IT",
         error: null,
       });
     } catch (error) {
