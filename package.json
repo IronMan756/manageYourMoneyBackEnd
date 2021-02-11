@@ -8,7 +8,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": " cp -b .npmrc dist && cp -b ProcFile dist &&  node dist/main.js",
+    "start": "npm i @nestjs/cli && rimraf dist && nest build &&  cp -b .npmrc dist && cp -b ProcFile dist &&  node dist/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
