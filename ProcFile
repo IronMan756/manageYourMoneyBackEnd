@@ -1,1 +1,1 @@
-web:  dist/main.js
+web: npm i @nestjs/cli && rimraf dist && nest build && dist/main.js
