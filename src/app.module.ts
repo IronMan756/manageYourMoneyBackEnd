@@ -10,9 +10,16 @@ import { CategoriesModule } from "./category/category.module";
 import { ExpencesModule } from "./expences/expences.module";
 import { IncomesModule } from "./incomes/incomes.module";
 import { AppController } from "./app.controller";
+import { CoinbaseApiModule } from "./coinbase/coinbase.module";
 
 @Module({
   imports: [
+    // CoinbaseModule.forRoot({
+    //   apiKey: "string",
+    //   baseApiUrl: "string",
+    //   apiVersion: "string",
+    //   timeout: 500,
+    // }),
     AuthModule,
     ConfigModule.forRoot({
       envFilePath:
@@ -32,6 +39,7 @@ import { AppController } from "./app.controller";
     IncomesModule,
     ExpencesModule,
     CategoriesModule,
+    CoinbaseApiModule,
   ],
   providers: [AppService],
   controllers: [AppController],
