@@ -10,15 +10,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // -------------------------    WORKS ONLY SENDBOX -----------------------
-  const auth = {
-    apiKey: "f72de0c68cc10313e3d6e88cfec8921b",
-    apiSecret:
-      "f1G51/+DJFW10+FM+bSz7G9g+IAEdyZK/wdr2p65XGKcfxmrrbt9Y5RyPuimTGmJmD5a5ex/m5WKmtJUIAnqlA==",
-    passphrase: "jpmidetmc5k",
-    // The Sandbox is for testing only and offers a subset of the products/assets:
-    // https://docs.pro.coinbase.com/#sandbox
-    useSandbox: true,
-  };
+  // const auth = {
+  //   apiKey: "f72de0c68cc10313e3d6e88cfec8921b",
+  //   apiSecret:
+  //     "f1G51/+DJFW10+FM+bSz7G9g+IAEdyZK/wdr2p65XGKcfxmrrbt9Y5RyPuimTGmJmD5a5ex/m5WKmtJUIAnqlA==",
+  //   passphrase: "jpmidetmc5k",
+  // The Sandbox is for testing only and offers a subset of the products/assets:
+  // https://docs.pro.coinbase.com/#sandbox
+  // useSandbox: true,
+  // };
   // const authR = {
   //   apiKey: "wBJFj0WiMjajlFtI",
   //   apiSecret: "lEbPlRy0vDDeodKdcPdtS3TOtt4LDpfx",
@@ -28,12 +28,12 @@ async function bootstrap() {
   //   useSandbox: false,
   // };
 
-  const client = new CoinbasePro(auth);
+  // const client = new CoinbasePro(auth);
   // console.log(client);
-  client.rest.account.listAccounts().then((accounts) => {
-    const message = `You can trade "${accounts.length}" different pairs.`;
-    console.log(message);
-  });
+  // // client.rest.account.listAccounts().then((accounts) => {
+  //   const message = `You can trade "${accounts.length}" different pairs.`;
+  //   console.log(message);
+  // });
   // ----------------------------------------------------------------------------------
   // console.log(new PublicClient({ sandbox: false }));
   // ----------------------   IT IS WORKONG  BUT DEPRICATED  ------------------------

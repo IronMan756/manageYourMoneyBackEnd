@@ -11,6 +11,7 @@ import { ExpencesModule } from "./expences/expences.module";
 import { IncomesModule } from "./incomes/incomes.module";
 import { AppController } from "./app.controller";
 import { CoinbaseApiModule } from "./coinbase/coinbase.module";
+import { BlockchainModule } from './blockchain/blockchain.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { CoinbaseApiModule } from "./coinbase/coinbase.module";
     ExpencesModule,
     CategoriesModule,
     CoinbaseApiModule,
+    BlockchainModule,
   ],
   providers: [AppService],
   controllers: [AppController],
