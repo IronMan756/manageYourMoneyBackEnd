@@ -13,6 +13,7 @@ export class BlockchainController {
   public async stripeWebhook(@Res() res: Response, @Body() body: any) {
     try {
       console.log(body);
+      console.log("xvdvzkj");
       return res.status(HttpStatus.OK).json({ data: null, error: null });
     } catch (error) {
       return res
