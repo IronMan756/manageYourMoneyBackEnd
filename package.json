@@ -8,7 +8,8 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start --watch",
+    "prod": "npm i @nestjs/cli && rimraf dist && nest build &&  cp -b .npmrc dist && cp -b ProcFile dist &&  node dist/main.js",
+    "start": "node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -41,7 +42,7 @@
     "swagger-ui-express": "^4.1.3"
   },
   "devDependencies": {
-    "@nestjs/cli": "^6.13.2",
+    "@nestjs/cli": "^6.14.2",
     "@nestjs/schematics": "^6.8.1",
     "@nestjs/testing": "^6.10.14",
     "@types/bcrypt": "^3.0.0",
