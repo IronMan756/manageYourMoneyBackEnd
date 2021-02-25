@@ -15,6 +15,7 @@ export class AuthController {
     public configService: ConfigService,
     public authService: AuthService
   ) {}
+
   @Post("sign-in")
   @ApiOperation({ description: "Login to system" })
   @ApiResponse({
