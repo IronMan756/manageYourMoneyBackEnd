@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Module } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
@@ -12,6 +13,14 @@ import { IncomesModule } from "./incomes/incomes.module";
 import { AppController } from "./app.controller";
 import { CoinbaseApiModule } from "./coinbase/coinbase.module";
 import { BlockchainModule } from './blockchain/blockchain.module';
+=======
+import { Module } from '@nestjs/common';
+import { AppService } from './app.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+>>>>>>> parent of 7d299ea... Feat/expence (#33)
 
 @Module({
   imports: [
@@ -22,6 +31,9 @@ import { BlockchainModule } from './blockchain/blockchain.module';
     //   timeout: 500,
     // }),
     AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     ConfigModule.forRoot({
       envFilePath:
         process.env.NODE_ENV === "production" ? ".production.env" : ".env",
@@ -34,6 +46,7 @@ import { BlockchainModule } from './blockchain/blockchain.module';
         uri: configService.get("DATABASE"),
       }),
     }),
+<<<<<<< HEAD
     UsersModule,
     PursesModule,
     TransactionsModule,
@@ -42,6 +55,9 @@ import { BlockchainModule } from './blockchain/blockchain.module';
     CategoriesModule,
     CoinbaseApiModule,
     BlockchainModule,
+=======
+    UsersModule
+>>>>>>> parent of 7d299ea... Feat/expence (#33)
   ],
   providers: [AppService],
   controllers: [AppController],

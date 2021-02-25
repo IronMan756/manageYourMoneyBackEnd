@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { AuthService } from "./auth.service";
 import { ConfigService } from "@nestjs/config";
 import { UserDto } from "./../users/users.dto";
@@ -6,6 +7,17 @@ import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Response } from "express";
 import * as bcrypt from "bcrypt";
 import { UsersService } from "src/users/users.service";
+=======
+import { AuthService } from './auth.service';
+import { ConfigService } from '@nestjs/config';
+import { UserDto } from './../users/users.dto';
+import { Controller, Post, HttpStatus, Body, Res, UseGuards, Get, Next } from "@nestjs/common";
+import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { Response } from "express";
+import { AuthGuard } from "@nestjs/passport";
+import { UsersService } from 'src/users/users.service';
+import * as bcrypt from 'bcrypt';
+>>>>>>> parent of 7d299ea... Feat/expence (#33)
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -14,7 +26,7 @@ export class AuthController {
     public userService: UsersService,
     public configService: ConfigService,
     public authService: AuthService
-  ) {}
+  ) { }
   @Post("sign-in")
   @ApiOperation({ description: "Login to system" })
   @ApiResponse({
@@ -35,6 +47,7 @@ export class AuthController {
     @Res() res: Response
   ) {
     try {
+<<<<<<< HEAD
       const user: UserDto = await this.userService.findUser(query.email);
       console.log(user);
       if (
@@ -49,6 +62,19 @@ export class AuthController {
       return res.status(HttpStatus.OK).json({
         token: user.accessToken,
         error: null,
+=======
+
+      const isUser = await this.userService.findUser({ email: query.email })
+      if (isUser) {
+        return res.status(HttpStatus.OK).json({
+          authorased: true,
+          error: null,
+        });
+      }
+      return res.status(HttpStatus.CONFLICT).json({
+        data: null,
+        error: 'User with this email is not exist'
+>>>>>>> parent of 7d299ea... Feat/expence (#33)
       });
     } catch (error) {
       return res
@@ -75,6 +101,7 @@ export class AuthController {
     // @UploadedFile() avatar: Buffer,
   ): Promise<Response> {
     try {
+<<<<<<< HEAD
       const { email, password, login } = user;
 
       const userInDB = await this.userService.findUser(email);
@@ -103,6 +130,33 @@ export class AuthController {
         data: true,
         error: null,
       });
+=======
+      console.log('user',user);
+      const { email, password } = user;
+      const userInDB = await this.userService.findUser({ email: email });
+      if (userInDB) {
+        return res.status(HttpStatus.CONFLICT).json({
+          data: null,
+          error: 'This email already exists'
+        });
+      }
+      const numberTypeSalt = Number(this.configService.get('SALT') as number);
+      const salt = await bcrypt.genSalt(numberTypeSalt);
+      const hashPass = await bcrypt.hash(password, salt);
+      const accessToken = await this.authService.createJwt(user);
+      const newUser = await this.userService.createUser({
+        ...user,
+        accessToken,
+        password: hashPass
+      })
+
+      delete newUser.password
+      return res.status(HttpStatus.OK).json({
+        data: accessToken,
+        error: null,
+      });
+
+>>>>>>> parent of 7d299ea... Feat/expence (#33)
     } catch (error) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
