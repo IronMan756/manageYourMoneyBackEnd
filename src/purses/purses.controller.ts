@@ -9,6 +9,7 @@ import {
   Post,
   Body,
   Delete,
+  Param,
 } from "@nestjs/common";
 import { PursesService } from "./purses.service";
 import { Response } from "express";
