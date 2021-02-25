@@ -1,2 +1,1 @@
-web: npm run start:prod
-#web: dist/main.js
+web: dist/main.js
