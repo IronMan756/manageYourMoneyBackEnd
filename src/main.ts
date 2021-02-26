@@ -4,6 +4,7 @@ import { ConfigService } from "@nestjs/config";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 
 import bodyParser = require("body-parser");
+import { OnApplicationBootstrap } from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,7 @@ async function bootstrap() {
       parameterLimit: 100000,
     })
   );
+
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("api", app, document);
   const configService: ConfigService = app.get(ConfigService);

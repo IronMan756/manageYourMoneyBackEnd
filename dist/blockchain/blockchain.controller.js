@@ -18,6 +18,7 @@ let BlockchainController = class BlockchainController {
     async stripeWebhook(res, body) {
         try {
             console.log(body);
+            console.log("xvdvzkj");
             return res.status(common_1.HttpStatus.OK).json({ data: null, error: null });
         }
         catch (error) {
