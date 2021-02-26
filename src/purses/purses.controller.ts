@@ -21,7 +21,7 @@ import { PursesDto } from "./purses.dto";
 export class PursesController {
   public constructor(public pursesService: PursesService) {}
   @UseGuards(AuthGuard("jwt"))
-  @Get("/:collName")
+  @Get("")
   @ApiOperation({ description: "Get purses" })
   @ApiResponse({
     description: "Find purses success",
@@ -40,16 +40,11 @@ export class PursesController {
     required: false,
     description: "Find purse by some query",
   })
-  public async findPurses(
-    // @Query() quary: any,
-    @Param("collName") collName: string,
-    @Res() res: Response
-  ) {
+  public async findPurses(@Query() quary: any, @Res() res: Response) {
     try {
-      await this.pursesService.migrate(collName);
-
+      const purse = await this.pursesService.find(quary);
       return res.status(HttpStatus.OK).json({
-        data: "purse",
+        data: purse,
         error: null,
       });
     } catch (error) {
