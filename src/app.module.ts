@@ -9,6 +9,7 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { CategoriesModule } from './category/category.module';
 import { ExpencesModule } from './expences/expences.module';
 import { IncomesModule } from './incomes/incomes.module';
+import { BlockchainModule } from './blockchain/blockchain.module';
 
 
 @Module({
@@ -31,7 +32,8 @@ import { IncomesModule } from './incomes/incomes.module';
     TransactionsModule,
     IncomesModule,
     ExpencesModule,
-    CategoriesModule
+    CategoriesModule,
+    BlockchainModule
   ],
   providers: [AppService],
 })
