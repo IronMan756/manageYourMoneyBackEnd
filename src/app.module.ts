@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { HttpModule, HttpService, Module } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -10,7 +10,7 @@ import { CategoriesModule } from "./category/category.module";
 import { ExpencesModule } from "./expences/expences.module";
 import { IncomesModule } from "./incomes/incomes.module";
 import { AppController } from "./app.controller";
-import { BlockchainModule } from './blockchain/blockchain.module';
+import { BlockchainModule } from "./blockchain/blockchain.module";
 
 @Module({
   imports: [
@@ -37,5 +37,6 @@ import { BlockchainModule } from './blockchain/blockchain.module';
   ],
   providers: [AppService],
   controllers: [AppController],
+  // exports: [HttpService],
 })
 export class AppModule {}

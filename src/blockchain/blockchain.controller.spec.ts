@@ -1,15 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BlockchainController } from './blockchain.controller';
+import { BlockchainWebhookController } from "./controllers/blockchain_webhook.controller";
 
 describe('Blockchain Controller', () => {
-  let controller: BlockchainController;
+  let controller: BlockchainWebhookController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [BlockchainController],
+      controllers: [BlockchainWebhookController],
     }).compile();
 
-    controller = module.get<BlockchainController>(BlockchainController);
+    controller = module.get<BlockchainWebhookController>(
+      BlockchainWebhookController
+    );
   });
 
   it('should be defined', () => {

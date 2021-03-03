@@ -1,16 +1,17 @@
 import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
+@ApiTags("blockchain")
 @Controller("blockchain")
-export class BlockchainController {
-  @Post("")
+export class BlockchainWebhookController {
+  @Post("webhook")
   @ApiOperation({ description: "Blockchain webhook success or error" })
   @ApiResponse({
     description: "Server error",
     status: HttpStatus.INTERNAL_SERVER_ERROR,
   })
-  public async stripeWebhook(@Res() res: Response, @Body() body: any) {
+  public async blockchainWebhook(@Res() res: Response, @Body() body: any) {
     try {
       console.log(body);
       console.log("xvdvzkj");
