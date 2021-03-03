@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "npm i @nestjs/cli && npm i blockchain-wallet-service && rimraf dist && nest build &&  cp -b .npmrc dist && cp -b ProcFile dist &&  start blockchain-wallet-service start --port 3000 && node dist/main",
     "start_pre_build": "start blockchain-wallet-service start --port 3000 && node dist/main",
-    "start_full_dev": "start blockchain-wallet-service start --port 3000 && npm run start",
+    "start_full_dev": "start blockchain-wallet-service start --port 3000 && nest start --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
