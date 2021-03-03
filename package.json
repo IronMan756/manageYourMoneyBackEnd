@@ -13,7 +13,7 @@
     "start2": "npm i @nestjs/cli && npm i blockchain-wallet-service && rimraf dist && nest build &&  cp -b .npmrc dist && cp -b ProcFile dist &&  start blockchain-wallet-service start --port 3000 && node dist/main",
     "start_pre_build": "start blockchain-wallet-service start --port 3000 && node dist/main",
     "start_full_dev": "start blockchain-wallet-service start --port 3000 && nest start --watch",
-    "start:dev": "nest start --watch",
+    "start:dev": "npm i @nestjs/cli && rimraf dist && nest build &&  cp -b .npmrc dist && cp -b ProcFile dist &&  node dist/main.js",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
