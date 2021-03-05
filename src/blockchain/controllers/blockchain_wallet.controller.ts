@@ -123,7 +123,7 @@ export class BlockchainWalletController {
         api_code,
         xpubs
       );
-      console.group();
+
       return res.status(HttpStatus.OK).json({ data: wallets, error: null });
     } catch (error) {
       return res
