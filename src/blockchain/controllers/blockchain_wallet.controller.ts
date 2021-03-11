@@ -1,13 +1,5 @@
 import { BlockchainService } from "./../blockchain.service";
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Post,
-  Query,
-  Res,
-} from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Res } from "@nestjs/common";
 import {
   ApiBody,
   ApiOperation,
@@ -45,11 +37,10 @@ export class BlockchainWalletController {
   })
   public async blockchainCreateWallet(
     @Res() res: Response,
-    @Query("pass") pass: string,
-    @Query("api_code") api_code: string,
-    @Query("label") label: string
+    @Body() body: { pass: string; api_code: string; label: string }
   ) {
     try {
+      const { pass, api_code, label } = body;
       const createdWallet = await this._blockchainService.createWallet(
         pass,
         api_code,
@@ -123,6 +114,7 @@ export class BlockchainWalletController {
         api_code,
         xpubs
       );
+
       return res.status(HttpStatus.OK).json({ data: wallets, error: null });
     } catch (error) {
       return res
